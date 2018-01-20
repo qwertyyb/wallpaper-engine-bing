@@ -1,5 +1,8 @@
 <template>
   <div id="app" :style="{background: backgroundImage}">
+    <div class="copyright">
+      <p>copyright：{{imageInfo.copyright}}</p>
+    </div>
   </div>
 </template>
 
@@ -10,17 +13,23 @@ export default {
   name: 'App',
   data() {
     return {
+      idx: 0,
       imageInfo: {},
     };
   },
   computed: {
     backgroundImage() {
-      return `url(http://cn.bing.com${this.imageInfo.url})`;
+      return this.imageInfo.url ? `url(http://cn.bing.com${this.imageInfo.url})` : null;
     },
   },
-  async created() {
-    const res = await axios.get('https://bird.ioliu.cn/v2?url=https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
-    this.imageInfo = res.data.images[0];
+  created() {
+    this.getWallpapaer();
+  },
+  methods: {
+    async getWallpapaer(idx = 0) {
+      const res = await axios.get(`https://bird.ioliu.cn/v2?url=https://cn.bing.com/HPImageArchive.aspx?format=js&idx=${idx}&n=1`);
+      this.imageInfo = res.data.images[0];
+    },
   },
 };
 </script>
@@ -32,5 +41,10 @@ export default {
 }
 html, body, #app {
   height: 100%
+}
+.copyright p{
+  float: right;
+  color: #fff;
+  width: 400px
 }
 </style>
