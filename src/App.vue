@@ -1,23 +1,36 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div id="app" :style="{background: backgroundImage}">
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'App',
+  data() {
+    return {
+      imageInfo: {},
+    };
+  },
+  computed: {
+    backgroundImage() {
+      return `url(http://cn.bing.com${this.imageInfo.url})`;
+    },
+  },
+  async created() {
+    const res = await axios.get('https://bird.ioliu.cn/v2?url=https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+    this.imageInfo = res.data.images[0];
+  },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body, #app {
+  height: 100%
 }
 </style>
