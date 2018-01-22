@@ -121,7 +121,7 @@ button.next {
 }
 .detail-wrapper .detail {
   max-height: calc(100vh - 120px);
-  overflow: scroll;
+  overflow-y: scroll;
   width: 385px;
   overflow-x: hidden;
 }
