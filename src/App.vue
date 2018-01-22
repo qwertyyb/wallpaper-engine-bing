@@ -1,6 +1,10 @@
 <template>
   <div id="app" @click="showDetail=false" :style="imageInfo.url|toBGForm">
     <div class="actions-wrapper">
+      <button class="qrcode">
+        <p class="line"></p>
+        <qrcode-vue :value="'http://cn.bing.com'+imageInfo.url" className="qrcode-img" :size="130"></qrcode-vue>
+      </button>
       <button @click.stop="idx+=1" class="prev" :disabled="idx>=7"></button>
       <button @click.stop="idx-=1" class="next" :disabled="idx<0"></button>
       <button @click.stop="showDetail=!showDetail" class="info"
@@ -13,10 +17,14 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue';
 import { getImage, getImageDetail } from './utils/api';
 
 export default {
   name: 'App',
+  components: {
+    QrcodeVue,
+  },
   data() {
     return {
       idx: 0,
@@ -100,7 +108,7 @@ button.prev {
 button.next {
   background-position: 0 -126px
 }
-.actions-wrapper button:enabled:hover {
+.actions-wrapper button:enabled:not(.qrcode):hover {
   background-position-x: -252px;
   width: 42px;
   height: 42px;
@@ -124,5 +132,41 @@ button.next {
   overflow-y: scroll;
   width: 385px;
   overflow-x: hidden;
+}
+button.qrcode {
+  position: relative;
+  background: transparent url(assets/qrcode-icon.png) no-repeat;
+  background-position: 0 0;
+}
+.actions-wrapper button.qrcode:hover{
+  background-position-x: -40px;
+}
+button.qrcode .line {
+  position: absolute;
+  left: calc(50% - 2px);
+  bottom: 40px;
+  width: 0;
+  border: 1px solid #fff;
+  height: 70px;
+}
+button.qrcode .qrcode-img {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -50px;
+  bottom: 110px;
+  width: 150px;
+  height: 150px;
+  background: rgba(0, 0, 0, .8);
+}
+button.qrcode:hover .qrcode-img {
+  display: flex;
+}
+button.qrcode>.line {
+  display: none;
+}
+button.qrcode:hover>.line{
+  display: initial;
 }
 </style>
