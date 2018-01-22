@@ -1,11 +1,12 @@
 <template>
-  <div id="app" @click="show=false" :style="{background: backgroundImage}">
+  <div id="app" @click="showDetail=false" :style="imageInfo.url|toBGForm">
     <div class="actions-wrapper">
-      <button class="prev" disabled></button>
-      <button class="next"></button>
-      <button @click.stop="show=!show" class="info" :title="imageInfo.copyright"></button>
+      <button @click.stop="idx+=1" class="prev" :disabled="idx>=7"></button>
+      <button @click.stop="idx-=1" class="next" :disabled="idx<0"></button>
+      <button @click.stop="showDetail=!showDetail" class="info"
+        :title="imageInfo.copyright"></button>
     </div>
-    <div :class="['detail-wrapper', show?'show':'']">
+    <div :class="['detail-wrapper', showDetail?'show':'']">
       <div class="detail" v-html="imageDetail"></div>
     </div>
   </div>
@@ -21,12 +22,18 @@ export default {
       idx: 0,
       imageInfo: {},
       imageDetail: null,
-      show: false,
+      showDetail: false,
     };
   },
-  computed: {
-    backgroundImage() {
-      return this.imageInfo.url ? `url(http://cn.bing.com${this.imageInfo.url})` : null;
+  filters: {
+    toBGForm(imageUrl) {
+      return imageUrl ? { backgroundImage: `url(http://cn.bing.com${imageUrl})` } : null;
+    },
+  },
+  watch: {
+    idx(newValue) {
+      this.getWallpapaer(newValue);
+      this.getWallpapaerInfo(newValue);
     },
   },
   created() {
@@ -38,8 +45,8 @@ export default {
       const res = await getImage(idx);
       this.imageInfo = res.images[0];
     },
-    async getWallpapaerInfo() {
-      const res = await getImageDetail();
+    async getWallpapaerInfo(idx) {
+      const res = await getImageDetail(idx);
       this.imageDetail = res;
     },
   },
@@ -58,6 +65,8 @@ html, body, #app {
   display: flex;
   position: relative;
   overflow: hidden;
+  transition: background .4s;
+  background-color: rgba(0, 0, 0, .8);
 }
 .actions-wrapper {
   width: 100%;
