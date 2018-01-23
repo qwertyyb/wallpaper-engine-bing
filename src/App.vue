@@ -82,7 +82,7 @@ html, body, #app {
   display: flex;
   justify-content: flex-end;
   padding: 10px 30px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 .actions-wrapper button {
   width: 40px;
@@ -118,7 +118,7 @@ button.next {
   background: rgba(0, 0, 0, .8);
   width: 364px;
   height: 100vh;
-  padding: 30px;
+  padding: 0 30px;
   position: absolute;
   right: -424px;
   top: 0;
