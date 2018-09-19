@@ -1,9 +1,10 @@
 import axios from 'axios';
 import moment from 'moment';
 
-const proxy = 'https://bird.ioliu.cn/v2?url=';
+const apiRoot = 'https://proxy.bing.com/cn.bing.com';
+
 export function getImage(idx = 0, n = 1) {
-  return axios.get(`${proxy}https://cn.bing.com/HPImageArchive.aspx?format=js&idx=${idx}&n=${n}`)
+  return axios.get(`${apiRoot}/HPImageArchive.aspx?format=js&idx=${idx}&n=${n}`)
     .then(res => res.data);
 }
 export function getImageDetail(offset = 0) {
@@ -11,6 +12,6 @@ export function getImageDetail(offset = 0) {
   const params = {
     currentDate: date,
   };
-  return axios.get(`${proxy}https://cn.bing.com/cnhp/life`, { params })
+  return axios.get(`${apiRoot}/cnhp/life`, { params })
     .then(res => res.data);
 }

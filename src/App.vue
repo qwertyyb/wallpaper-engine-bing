@@ -158,7 +158,7 @@ button.qrcode .qrcode-img {
   bottom: 110px;
   width: 150px;
   height: 150px;
-  background: rgba(0, 0, 0, .8);
+  background: #fff;
 }
 button.qrcode:hover .qrcode-img {
   display: flex;
